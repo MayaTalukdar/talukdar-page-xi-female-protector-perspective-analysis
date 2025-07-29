@@ -1,0 +1,49 @@
+---
+title: "Can X-Linked Mutations Fully Explain the Male Bias in ASD?"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+Let $x$ be the proportion of female cases and $n$ be the male-to-female ratio of cases.
+
+Then, $x + nx = 1$ and so $x = 1/(n+1)$ and $nx = n/(n+1)$.
+
+Thus, the male excess of cases is $(n-1)/(n+1)$.
+
+If we assume that the male excess of cases arises solely due to X-linked mutations, we can then ask the following question: what proportion of affected males must have a causal X-linked mutation to explain this sex bias?
+
+The answer is given by $\frac{(n-1)/(n+1)}{n/(n+1)} = (n-1)/n$
+
+```{r}
+library(ggplot2)
+
+ratios_to_test <- seq(1, 4, 0.1)
+prop_male_xlr <- sapply(ratios_to_test, function(x) (x-1)/x)
+data <- data.frame(ratio = ratios_to_test, proportion = prop_male_xlr)
+
+p <- ggplot(data, aes(x = ratio, y = proportion)) +
+  geom_line() + 
+  geom_point() +  
+  labs(
+    x = "Male-to-Female Sex Ratio",
+    y = "Theoretical Proportion of Male Cases Attributable to X-Linked Mutations That Only Affect Males To Explain Full Sex Ratio" 
+  ) +
+  scale_x_continuous(breaks = seq(min(data$ratio), max(data$ratio), by = 0.2)) +  
+  scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +  
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    axis.title = element_text(size = 12),  
+    axis.text = element_text(size = 10)  
+  ) + 
+#add in horizontal lines for relevant numbers 
+  geom_hline(yintercept = data$proportion[which(data$ratio == 3.0)]) + 
+  geom_hline(yintercept = data$proportion[which(data$ratio == 4.0)]) + 
+  
+pdf('math_modeling_plot.pdf', width = 6, height = 4)
+print(p)
+dev.off()
+
+p
+```
