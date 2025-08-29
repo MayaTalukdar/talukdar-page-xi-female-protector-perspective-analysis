@@ -1,8 +1,13 @@
+#run this R script to recreate table s1 and figure s1a (e.g., Rscript script_associated_with_fig_s1A.R on the command line; can also run interactively via R/RStudio)
+#approximate install time for all used packages: < 5 minutes
+#approximate run time for all used packges: < 5 minutes
+
 #############################
 #I/O
 #############################
-library(tidyverse)
-library(data.table)
+library(tidyverse) #v2.0.0
+library(data.table) #v1.15.0
+# all libraries run using R 4.0.1
 
 # Read in sfari database
 sfari <- read.csv("sfari_q4_2024.csv", header = TRUE)
