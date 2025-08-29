@@ -16,7 +16,11 @@ If we assume that the male excess of cases arises solely due to X-linked mutatio
 The answer is given by $\frac{(n-1)/(n+1)}{n/(n+1)} = (n-1)/n$
 
 ```{r}
-library(ggplot2)
+#run this R notebook to recreate figure s1b using RStudio (R 4.4.1)
+#approximate install time for all used packages: < 5 minutes
+#approximate run time for all used packges: < 5 minutes
+
+library(ggplot2) #version 3.4.2
 
 ratios_to_test <- seq(1, 4, 0.1)
 prop_male_xlr <- sapply(ratios_to_test, function(x) (x-1)/x)
@@ -41,7 +45,7 @@ p <- ggplot(data, aes(x = ratio, y = proportion)) +
   geom_hline(yintercept = data$proportion[which(data$ratio == 3.0)]) + 
   geom_hline(yintercept = data$proportion[which(data$ratio == 4.0)]) + 
   
-pdf('math_modeling_plot.pdf', width = 6, height = 4)
+pdf('math_modeling_plot_fig_s1b.pdf', width = 6, height = 4)
 print(p)
 dev.off()
 
